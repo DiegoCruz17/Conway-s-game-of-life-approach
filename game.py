@@ -80,16 +80,20 @@ class Game:
         mouse_y = math.floor(mouse_pos[1]/(self.canvas_size/self.eco.boardsize)) 
 
         for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
             if pygame.mouse.get_pressed()[0] == 1:
-                if mouse_pos[0] <= self.canvas_size:
-                    self.eco.cells[mouse_y][mouse_x].alive = True
-                for button in self.buttons:
-                    if button[0].collidepoint(event.pos):
-                        if button[3] != None:
-                            button[3]()
-                        else:
-                            self.entryActive = not self.entryActive
-                            print(self.entryActive)
+                if event.pos[0] >= 0 and event.pos[0] <= self.canvas_size + self.menu_size:
+                    if mouse_pos[0] <= self.canvas_size:
+                        self.eco.cells[mouse_y][mouse_x].alive = True
+                    for button in self.buttons:
+                        if button[0].collidepoint(event.pos):
+                            if button[3] != None:
+                                button[3]()
+                            else:
+                                self.entryActive = not self.entryActive
+                                print(self.entryActive)
             if pygame.mouse.get_pressed()[2] == 1:
                 if mouse_pos[0] <= self.canvas_size:
                     self.eco.cells[mouse_y][mouse_x].alive = False
@@ -98,14 +102,8 @@ class Game:
                 if event.type == pygame.KEYDOWN:
                     self.entryText += event.unicode
                     pygame.draw.rect(self.screen,(0,0,0),self.buttons[3][0],1)
-    
-
                     if event.key == pygame.K_SPACE:
                         self.cellsNum = int(self.entryText)
                         self.eco = eco(self.cellsNum,self.canvas_size)
                         self.entryText = ""
                         self.entryActive = False
-
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
