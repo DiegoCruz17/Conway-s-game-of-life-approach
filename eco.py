@@ -1,5 +1,6 @@
 from cell import Cell
 import random
+#The ecosystem class populates an array with cell objects and contains methods for handling the state of the cells.
 class Ecosystem:
     def __init__(self,boardsize,win_size):
         self.boardsize = boardsize
@@ -19,7 +20,7 @@ class Ecosystem:
                 cell.draw(screen)
                 if not self.setting:
                     self.defineCellState(cell.x,cell.y)
-
+    #this block surely needs optimization. It does not follow DRY either.
     def checkCell(self,x,y):
         alivecells = 0
         if x == 0 and y == 0:
